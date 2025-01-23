@@ -12,3 +12,6 @@ Key features:
 ### scripts/pdf_to_img.py
 The first part of the pipeline converts PDFs (previously downloaded and stored in YT Saurus tables) into images, as the extraction process utilizes an image-based model. Since individual PDFs may be split across multiple table rows due to size constraints, this script runs as a reduce operation over unique PDF IDs.
 The code utilizes PyMuPDF and Pillow to convert PDF bytes into images. Each PDF is processed page by page, with the resulting images being split into manageable chunks (100MB) and stored in YT tables. 
+
+### scripts/img_to_box.py
+The second part of the pipeline uses a YOLO model to detect and extract bounding boxes from the previously generated images. The script processes images in batches (128 or 256 depending on GPU type) for optimal performance, using CUDA when available. It implements a map-reduce operation that groups images by PDF ID and page index, running on GPU-enabled nodes (in our case H100s or L40s). The extractor outputs structured data containing bounding box coordinates, confidence scores, and class labels for each detected element in the PDF pages.

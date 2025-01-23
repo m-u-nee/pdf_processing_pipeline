@@ -3,10 +3,14 @@ import io
 import yt.yson as yson
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
-
 import gc
 import time
 import sys
+import yt.wrapper as yt
+from typing import Any, Iterable
+from yt.wrapper.schema import RowIterator, Variant
+from yt.wrapper import OutputRow
+
 
 def pdf_bytes_to_images(pdf_bytes):
     """
@@ -32,12 +36,6 @@ def pdf_bytes_to_images(pdf_bytes):
     doc.close()
     return images
 
-
-
-    import yt.wrapper as yt
-from typing import Any, Iterable
-from yt.wrapper.schema import RowIterator, Variant
-from yt.wrapper import OutputRow
 
 ### --- Data Class for Bounding Box Records --- ###
 @yt.yt_dataclass
