@@ -15,3 +15,6 @@ The code utilizes PyMuPDF and Pillow to convert PDF bytes into images. Each PDF 
 
 ### scripts/img_to_box.py
 The second part of the pipeline uses a YOLO model to detect and extract bounding boxes from the previously generated images. The script processes images in batches (128 or 256 depending on GPU type) for optimal performance, using CUDA when available. It implements a map-reduce operation that groups images by PDF ID and page index, running on GPU-enabled nodes (in our case H100s or L40s). The extractor outputs structured data containing bounding box coordinates, confidence scores, and class labels for each detected element in the PDF pages.
+
+### scripts/box_to_text.py
+The final part of the pipeline extracts and structures text from PDFs using the detected bounding boxes. It employs PyMuPDF to extract text within the identified regions and organizes content hierarchically based on text class types (Regular, Special, Margin, or Blank). The script intelligently manages text sections, splits large text chunks while preserving sentence integrity, and generates unique hashes for each text entry. The output is structured as JSON records containing section information, text content, page numbers, and metadata. The process runs as a reduce operation on CPU nodes, combining PDF content with bounding box data to produce the final structured text output.
