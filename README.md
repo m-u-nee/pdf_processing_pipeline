@@ -8,3 +8,7 @@ Key features:
 - Built using Pleias processing framework
 - Focused on accurate text extraction and processing
 - Scripts are map-reduce ready for parallel processing
+## Pipeline Walkthrough
+### scripts/pdf_to_img.py
+The first part of the pipeline converts PDFs (previously downloaded and stored in YT Saurus tables) into images, as the extraction process utilizes an image-based model. Since individual PDFs may be split across multiple table rows due to size constraints, this script runs as a reduce operation over unique PDF IDs.
+The code utilizes PyMuPDF and Pillow to convert PDF bytes into images. Each PDF is processed page by page, with the resulting images being split into manageable chunks (100MB) and stored in YT tables. 
